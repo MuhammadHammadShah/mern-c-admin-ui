@@ -4,7 +4,6 @@ import Logo from "../../components/icons/logo";
 const LoginPage = () => {
   return (
     <>
-
       <Layout
         style={{ height: "100vh", display: "grid", placeItems: "center" }}
       >
@@ -39,6 +38,9 @@ const LoginPage = () => {
             <Form
               initialValues={{
                 remember: true,
+              }}
+              onFinish={(values) => {
+                console.log(values);
               }}
             >
               <Form.Item
