@@ -1,6 +1,6 @@
 import { Layout, Card, Space, Form, Input, Checkbox, Button, Flex } from "antd";
 import { LockFilled, LockOutlined, UserOutlined } from "@ant-design/icons";
-import Logo from "../../components/icons/logo";
+import Logo from "../../components/icons/Logo";
 const LoginPage = () => {
   return (
     <>
