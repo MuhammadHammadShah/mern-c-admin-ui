@@ -13,8 +13,9 @@ import { LockFilled, LockOutlined, UserOutlined } from "@ant-design/icons";
 import Logo from "../../components/icons/Logo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Credentials } from "../../types";
-import { login, self } from "../../http/api";
+import { login, logout, self } from "../../http/api";
 import { useAuthStore } from "../../store";
+import { usePermission } from "../../hooks/usePermission";
 
 const loginUser = async (credentials: Credentials) => {
   // server call logic
@@ -28,9 +29,11 @@ const getSelf = async () => {
 };
 
 const LoginPage = () => {
-  const { setUser } = useAuthStore();
+  const { isAllowed } = usePermission();
 
-  const { data : selfData, refetch } = useQuery({
+  const { setUser, logout: logoutFromStore } = useAuthStore();
+
+  const { refetch } = useQuery({
     queryKey: ["self"],
     queryFn: getSelf,
     enabled: false,
@@ -42,8 +45,28 @@ const LoginPage = () => {
     onSuccess: async () => {
       // getself for token
       const selfDataPromise = await refetch();
+
+      // logout or redirect to client ui
+      // window.location.href = "http://clientui/url"
+      // "admin" , "manager", "customer"
+
+      if (!isAllowed(selfDataPromise.data)) {
+        // selfDataPromise.data is `user` here, see the logic for better understanding
+        await logout();
+        logoutFromStore();
+
+        return;
+      }
+
+      // if (selfDataPromise.data.role === "customer") {
+      //   await logout();
+      //   logoutFromStore();
+
+      //   return;
+      // }
+
       setUser(selfDataPromise.data);
-      console.log("user Data: ", selfDataPromise.data);
+      // console.log("user Data: ", selfDataPromise.data);
       // store in the state
 
       // console.log("Login Successful....");
