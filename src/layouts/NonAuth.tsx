@@ -3,6 +3,8 @@ import { useAuthStore } from "../store";
 
 const NonAuth = () => {
 
+    // call getself
+
     //if user is logged in 
 const { user } = useAuthStore();
 

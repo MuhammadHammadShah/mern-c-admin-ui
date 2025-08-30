@@ -1,9 +1,12 @@
-import {  Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../store";
 
 const Dashboard = () => {
-  // protection
+  // call getself
 
+  
+
+  // protection
   const { user } = useAuthStore();
 
   if (user === null) {
