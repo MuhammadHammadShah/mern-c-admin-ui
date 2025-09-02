@@ -82,11 +82,17 @@ const Users = () => {
         {isLoading && <div>Loading........</div>}
         {isError && <div>{error.message}</div>}
 
-        <UsersFilter/>
+        <UsersFilter
+          onFilterChange={(filterName: string, filterValue: string) => {
+            console.log(filterName, filterValue);
+          }}
+        />
+
+        {/*  */}
         {users && (
           <div>
             <h1>Users</h1>
-            <Table columns={columns} dataSource={users} />;
+            <Table columns={columns} dataSource={users} rowKey="id" />;
             {/* <ul>
             {users.map((user: User) => (
               <li key={user.id}>{user.firstName}</li>
