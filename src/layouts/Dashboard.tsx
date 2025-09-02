@@ -18,33 +18,72 @@ import { logout } from "../http/api";
 
 const { Sider, Header, Content, Footer } = Layout;
 
-const items = [
-  {
-    key: "/",
-    icon: <HomeOutlined />,
-    label: <NavLink to="/">Home</NavLink>,
-  },
-  {
-    key: "/users",
-    icon: <UserOutlined />,
-    label: <NavLink to="/users">Users</NavLink>,
-  },
-  {
-    key: "/products",
-    icon: <UserOutlined />,
-    label: <NavLink to="/products">Products</NavLink>,
-  },
-  {
-    key: "/resturants",
-    icon: <UserOutlined />,
-    label: <NavLink to="/resturants">Resturants</NavLink>,
-  },
-  {
-    key: "/promos",
-    icon: <UserOutlined />,
-    label: <NavLink to="/promos">Promos</NavLink>,
-  },
-];
+const getMenuItems = (role: string) => {
+  const baseItems = [
+    {
+      key: "/",
+      icon: <HomeOutlined />,
+      label: <NavLink to="/">Home</NavLink>,
+    },
+
+    {
+      key: "/products",
+      icon: <UserOutlined />,
+      label: <NavLink to="/products">Products</NavLink>,
+    },
+    {
+      key: "/resturants",
+      icon: <UserOutlined />,
+      label: <NavLink to="/resturants">Resturants</NavLink>,
+    },
+    {
+      key: "/promos",
+      icon: <UserOutlined />,
+      label: <NavLink to="/promos">Promos</NavLink>,
+    },
+  ];
+
+  if (role === "admin") {
+    const menus = [...baseItems];
+
+    menus.splice(1, 0, {
+      key: "/users",
+      icon: <UserOutlined />,
+      label: <NavLink to="/users">Users</NavLink>,
+    });
+    return menus;
+  }
+
+  return baseItems;
+};
+
+// const items = [
+//   {
+//     key: "/",
+//     icon: <HomeOutlined />,
+//     label: <NavLink to="/">Home</NavLink>,
+//   },
+//   {
+//     key: "/users",
+//     icon: <UserOutlined />,
+//     label: <NavLink to="/users">Users</NavLink>,
+//   },
+//   {
+//     key: "/products",
+//     icon: <UserOutlined />,
+//     label: <NavLink to="/products">Products</NavLink>,
+//   },
+//   {
+//     key: "/resturants",
+//     icon: <UserOutlined />,
+//     label: <NavLink to="/resturants">Resturants</NavLink>,
+//   },
+//   {
+//     key: "/promos",
+//     icon: <UserOutlined />,
+//     label: <NavLink to="/promos">Promos</NavLink>,
+//   },
+// ];
 
 const Dashboard = () => {
   //
@@ -69,6 +108,7 @@ const Dashboard = () => {
   if (user === null) {
     return <Navigate to="/auth/login" replace={true} />;
   }
+  const items = getMenuItems(user.role);
 
   return (
     <div>
