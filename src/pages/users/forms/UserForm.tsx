@@ -1,23 +1,79 @@
-import { Card, Col, Form, Input, Row } from "antd";
+import { Card, Col, Form, Input, Row, Select, Space } from "antd";
 
 const UserForm = () => {
   return (
     <Row>
       <Col span={24}>
-        <Card title="Basic User Info" variant="borderless">
-          <Row gutter={20}>
-            <Col span={12}>
-              <Form.Item label="First Name" name="firstN ame">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="First Name" name="firstN ame">
-                <Input />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Card>
+        <Space direction="vertical" size="large">
+          {/* First Card >> Basic info */}
+          <Card title="Basic User Info" variant="borderless">
+            <Row gutter={20}>
+              <Col span={12}>
+                <Form.Item label="First Name" name="firstName">
+                  <Input size="large" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item label="Last Name" name="LastName">
+                  <Input size="large" />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item label="Email" name="email">
+                  <Input size="large" />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+          {/* Second Card >> Security >> Password */}
+          <Card title="Security" variant="borderless">
+            <Row gutter={20}>
+              <Col span={12}>
+                <Form.Item label="Password" name="password">
+                  <Input size="large" type="password" />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+          {/* Third Card >> Role >> Tenants */}
+          <Card title="Role" variant="borderless">
+            <Row gutter={20}>
+              <Col span={12}>
+                <Form.Item label="Returant" name="tenantId">
+                  <Select
+                    size="large"
+                    style={{ width: "100%" }}
+                    allowClear={true}
+                    onChange={() => {}}
+                    placeholder="Select Returant"
+                  >
+                    <Select.Option value="admin">Returant 1</Select.Option>
+                    <Select.Option value="manager">Returant 2</Select.Option>
+                    <Select.Option value="customer">Returant 3</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+
+              {/*  */}
+
+              <Col span={12}>
+                <Form.Item label="Role" name="role">
+                  <Select
+                    size="large"
+                    style={{ width: "100%" }}
+                    allowClear={true}
+                    onChange={() => {}}
+                    placeholder="Select Role"
+                  >
+                    <Select.Option value="admin">Admin</Select.Option>
+                    <Select.Option value="manager">Manager</Select.Option>
+                    <Select.Option value="customer">Customer</Select.Option>
+                  </Select>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Card>
+        </Space>
       </Col>
     </Row>
   );
