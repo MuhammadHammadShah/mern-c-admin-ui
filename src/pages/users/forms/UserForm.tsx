@@ -25,7 +25,7 @@ const UserForm = () => {
               <Col span={12}>
                 <Form.Item
                   label="Last Name"
-                  name="LastName"
+                  name="lastName"
                   rules={[
                     {
                       required: true,
@@ -94,11 +94,11 @@ const UserForm = () => {
                     style={{ width: "100%" }}
                     allowClear={true}
                     onChange={() => {}}
-                    placeholder="Select Returant"
+                    placeholder="Select Resturant"
                   >
-                    <Select.Option value="admin">Returant 1</Select.Option>
-                    <Select.Option value="manager">Returant 2</Select.Option>
-                    <Select.Option value="customer">Returant 3</Select.Option>
+                    <Select.Option value={1}>Resturant 1</Select.Option>
+                    <Select.Option value={2}>Resturant 2</Select.Option>
+                    <Select.Option value={3}>Resturant 3</Select.Option>
                   </Select>
                 </Form.Item>
               </Col>
