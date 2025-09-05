@@ -26,9 +26,10 @@ import { createUser, getUsers } from "../../http/api";
 import type { CreateUserData, FiledData, User } from "../../types";
 import { useAuthStore } from "../../store";
 import UsersFilter from "./UsersFilter";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import UserForm from "./forms/UserForm";
 import { PER_PAGE } from "../../constants";
+import { debounce } from "lodash";
 
 const columns = [
   {
@@ -90,7 +91,7 @@ const Users = () => {
 
   const [queryParams, setQueryParams] = useState({
     perPage: PER_PAGE,
-    currentPage: 10,
+    currentPage: 1,
   });
 
   // state for drawer
@@ -128,6 +129,14 @@ const Users = () => {
     },
   });
 
+  // debounce logic alongwith useMemo
+
+  const debounced_q_Update = useMemo(() => {
+    return debounce((value: string | undefined) => {
+      setQueryParams((prev) => ({ ...prev, q: value }));
+    }, 1000);
+  }, []);
+
   // filteration key onChange
 
   const onFilterChange = (changedFields: FiledData[]) => {
@@ -136,7 +145,12 @@ const Users = () => {
         [item.name[0]]: item.value,
       }))
       .reduce((acc, item) => ({ ...acc, ...item }), {});
-    setQueryParams((prev) => ({ ...prev, ...changedFilterFields }));
+
+    if ("q" in changedFilterFields) {
+      debounced_q_Update(changedFilterFields.q);
+    } else {
+      setQueryParams((prev) => ({ ...prev, ...changedFilterFields }));
+    }
   };
 
   // if user is not admin send him to the HOME_PAGE :D
