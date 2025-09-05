@@ -20,3 +20,8 @@ export type CreateUserData = {
   role?: string;
   tenantId: number;
 };
+
+export type FiledData = {
+  name: string[];
+  value?: string;
+};
