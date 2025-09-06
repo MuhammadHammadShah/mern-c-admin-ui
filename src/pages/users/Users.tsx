@@ -39,7 +39,7 @@ const columns = [
   },
 
   {
-    title: "First Name",
+    title: "Name",
     dataIndex: "firstName",
     key: "firstName",
     render: (_text: string, record: User) => {
@@ -70,6 +70,14 @@ const columns = [
     title: "Role",
     dataIndex: "role",
     key: "role",
+  },
+  {
+    title: "Resturant",
+    dataIndex: "tenant",
+    key: "tenant",
+    render: (_text: string, record: User) => {
+      return <div>{record.tenant?.name}</div>;
+    },
   },
 ];
 
