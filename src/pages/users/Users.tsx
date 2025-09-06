@@ -235,6 +235,10 @@ const Users = () => {
                     };
                   });
                 },
+                showTotal: (total: number, range: number[]) => {
+                  // ${range[0]} shows "from" and ${range[1]} shows to which range
+                  return `Showing ${range[0]}-${range[1]} of ${total}`;
+                },
               }}
             />
             <Drawer
