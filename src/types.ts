@@ -1,5 +1,6 @@
 import type { Tenant } from "./store";
 
+
 export type Credentials = {
   email: string;
   password: string;
@@ -12,7 +13,7 @@ export type User = {
   email: string;
   createdAt: string;
   updatedAt: string;
-  tenant : Tenant | null
+  tenant: Tenant | null;
 };
 
 export type CreateUserData = {
@@ -28,3 +29,5 @@ export type FiledData = {
   name: string[];
   value?: string;
 };
+
+

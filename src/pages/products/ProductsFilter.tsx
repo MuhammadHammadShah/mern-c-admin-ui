@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   Card,
   Col,
@@ -9,12 +10,25 @@ import {
   Switch,
   Typography,
 } from "antd";
+import { getTenants } from "../../http/api";
+import type { Tenant } from "../../store";
 
 type ProductsFilterProps = {
   children?: React.ReactNode;
 };
 
 const ProductsFilter = ({ children }: ProductsFilterProps) => {
+  // retrieve data from backend
+
+  const { data: resturants } = useQuery({
+    queryKey: ["resturants"],
+    queryFn: () => {
+      // TODO: add query parameter to it
+      return getTenants();
+    },
+  });
+  console.log(">>>>>>>>>>>>>>>", resturants?.data);
+  //
   return (
     <Card>
       <Row justify="space-between">
@@ -27,14 +41,19 @@ const ProductsFilter = ({ children }: ProductsFilterProps) => {
               </Form.Item>
             </Col>
             <Col span={6}>
-              <Form.Item name="rocategoryle">
+              <Form.Item name="resturant">
                 <Select
                   style={{ width: "100%" }}
                   allowClear={true}
-                  placeholder="Select Category"
+                  placeholder="Select Resturant"
                 >
-                  <Select.Option value="pizza">Pizza</Select.Option>
-                  <Select.Option value="beverage">Beverages</Select.Option>
+                  {resturants?.data.data.map((resturant: Tenant) => {
+                    return (
+                      <Select.Option value={resturant.id}>
+                        {resturant.name}
+                      </Select.Option>
+                    );
+                  })}
                 </Select>
               </Form.Item>
             </Col>
@@ -42,15 +61,14 @@ const ProductsFilter = ({ children }: ProductsFilterProps) => {
             {/*  */}
 
             <Col span={6}>
-              <Form.Item name="resturant">
+              <Form.Item name="category">
                 <Select
                   style={{ width: "100%" }}
                   allowClear={true}
-                  placeholder="Select Resturant"
+                  placeholder="Select Category"
                 >
-                  <Select.Option value="Max">Pizza Max</Select.Option>
-                  <Select.Option value="MAMA">Pizza MAMA</Select.Option>
-                  <Select.Option value="Hot">Hot Pizza</Select.Option>
+                  <Select.Option value="pizza">Pizza</Select.Option>
+                  <Select.Option value="beverage">Beverages</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
