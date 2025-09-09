@@ -79,6 +79,12 @@ const columns = [
       return <div>{record.tenant?.name}</div>;
     },
   },
+  {
+    title:"Action",
+    render:(_:string , record)=>{
+
+    }
+  }
 ];
 
 const Users = () => {

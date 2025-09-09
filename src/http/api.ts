@@ -1,12 +1,16 @@
 import type { CreateUserData, Credentials } from "../types";
 import { api } from "./client";
 
+export const AUTH_SERVICE = "/api/auth";
+const CATALOG_SERVICE = "/api/catalog";
+
 // Auth Service
 export const login = (credential: Credentials) =>
-  api.post("/auth/login", credential);
-export const self = () => api.get("/auth/self");
-export const logout = () => api.post("/auth/logout");
+  api.post(`${AUTH_SERVICE}/auth/login`, credential);
+export const self = () => api.get(`${AUTH_SERVICE}/auth/self`);
+export const logout = () => api.post(`${AUTH_SERVICE}/auth/logout`);
 export const getUsers = (queryString: string) =>
-  api.get(`/users?${queryString}`);
-export const getTenants = () => api.get("/tenants");
-export const createUser = (user: CreateUserData) => api.post("/users", user);
+  api.get(`${AUTH_SERVICE}/users?${queryString}`);
+export const getTenants = () => api.get(`${AUTH_SERVICE}/tenants`);
+export const createUser = (user: CreateUserData) =>
+  api.post(`${AUTH_SERVICE}/users`, user);
