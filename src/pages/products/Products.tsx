@@ -150,7 +150,15 @@ const Products = () => {
               },
             ]}
           />
-       
+          {isFetching && (
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 20 }} spin />}
+            />
+          )}
+          {isError && (
+            <Typography.Text type="danger">{error.message}</Typography.Text>
+          )}
+        </Flex>
         {/* filter */}
         <Form form={filterForm} onFieldsChange={onFilterChange}>
           <ProductsFilter>
