@@ -24,7 +24,7 @@ export type CreateUserData = {
   tenantId: number;
 };
 
-export type FiledData = {
+export type FieldData = {
   name: string[];
   value?: string;
 };

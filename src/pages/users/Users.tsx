@@ -23,7 +23,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { createUser, getUsers } from "../../http/api";
-import type { CreateUserData, FiledData, User } from "../../types";
+import type { CreateUserData, FieldData, User } from "../../types";
 import { useAuthStore } from "../../store";
 import UsersFilter from "./UsersFilter";
 import { useMemo, useState } from "react";
@@ -153,7 +153,7 @@ const Users = () => {
 
   // filteration key onChange
 
-  const onFilterChange = (changedFields: FiledData[]) => {
+  const onFilterChange = (changedFields: FieldData[]) => {
     const changedFilterFields = changedFields
       .map((item) => ({
         [item.name[0]]: item.value,
