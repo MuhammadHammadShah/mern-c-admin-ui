@@ -11,7 +11,7 @@ import {
   Typography,
 } from "antd";
 import { getCategories, getTenants } from "../../http/api";
-import type { Tenant } from "../../store";
+import { useAuthStore, type Tenant } from "../../store";
 import type { Category } from "../../types";
 
 type ProductsFilterProps = {
@@ -19,6 +19,7 @@ type ProductsFilterProps = {
 };
 
 const ProductsFilter = ({ children }: ProductsFilterProps) => {
+  const { user } = useAuthStore();
   // retrieve data from backend
 
   const { data: resturants } = useQuery({
@@ -48,25 +49,26 @@ const ProductsFilter = ({ children }: ProductsFilterProps) => {
                 <Input.Search placeholder="Search" allowClear={true} />
               </Form.Item>
             </Col>
-            <Col span={6}>
-              <Form.Item name="resturant">
-                <Select
-                  style={{ width: "100%" }}
-                  allowClear={true}
-                  placeholder="Select Resturant"
-                >
-                  {resturants?.data.map((resturant: Tenant) => {
-                    return (
-                      <Select.Option value={resturant.id}>
-                        {resturant.name}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
 
-            {/*  */}
+            {user!.role === "admin" && (
+              <Col span={6}>
+                <Form.Item name="resturant">
+                  <Select
+                    style={{ width: "100%" }}
+                    allowClear={true}
+                    placeholder="Select Resturant"
+                  >
+                    {resturants?.data.map((resturant: Tenant) => {
+                      return (
+                        <Select.Option value={resturant.id}>
+                          {resturant.name}
+                        </Select.Option>
+                      );
+                    })}
+                  </Select>
+                </Form.Item>
+              </Col>
+            )}
 
             <Col span={6}>
               <Form.Item name="categoryId">
@@ -88,8 +90,7 @@ const ProductsFilter = ({ children }: ProductsFilterProps) => {
             <Col span={6}>
               <Space>
                 <Form.Item name="isPublish">
-
-                <Switch defaultChecked onChange={() => {}} />
+                  <Switch defaultChecked onChange={() => {}} />
                 </Form.Item>
                 <Typography.Text>Show only published</Typography.Text>
               </Space>
