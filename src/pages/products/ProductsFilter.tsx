@@ -10,8 +10,9 @@ import {
   Switch,
   Typography,
 } from "antd";
-import { getTenants } from "../../http/api";
+import { getCategories, getTenants } from "../../http/api";
 import type { Tenant } from "../../store";
+import type { Category } from "../../types";
 
 type ProductsFilterProps = {
   children?: React.ReactNode;
@@ -27,7 +28,14 @@ const ProductsFilter = ({ children }: ProductsFilterProps) => {
       return getTenants();
     },
   });
-  console.log(">>>>>>>>>>>>>>>", resturants?.data);
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => {
+      // TODO: add query parameter to it
+      return getCategories();
+    },
+  });
+
   //
   return (
     <Card>
@@ -47,7 +55,7 @@ const ProductsFilter = ({ children }: ProductsFilterProps) => {
                   allowClear={true}
                   placeholder="Select Resturant"
                 >
-                  {resturants?.data.data.map((resturant: Tenant) => {
+                  {resturants?.data.map((resturant: Tenant) => {
                     return (
                       <Select.Option value={resturant.id}>
                         {resturant.name}
@@ -67,8 +75,13 @@ const ProductsFilter = ({ children }: ProductsFilterProps) => {
                   allowClear={true}
                   placeholder="Select Category"
                 >
-                  <Select.Option value="pizza">Pizza</Select.Option>
-                  <Select.Option value="beverage">Beverages</Select.Option>
+                  {categories?.data.map((category: Category) => {
+                    return (
+                      <Select.Option key={category._id}>
+                        {category.name}
+                      </Select.Option>
+                    );
+                  })}
                 </Select>
               </Form.Item>
             </Col>

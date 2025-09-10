@@ -2,7 +2,7 @@ import type { CreateUserData, Credentials } from "../types";
 import { api } from "./client";
 
 export const AUTH_SERVICE = "/api/auth";
-// const CATALOG_SERVICE = "/api/catalog";
+const CATALOG_SERVICE = "/api/catalog";
 
 // Auth Service
 export const login = (credential: Credentials) =>
@@ -14,3 +14,7 @@ export const getUsers = (queryString: string) =>
 export const getTenants = () => api.get(`${AUTH_SERVICE}/tenants`); // TODO: add query parameter to it
 export const createUser = (user: CreateUserData) =>
   api.post(`${AUTH_SERVICE}/users`, user);
+
+// category (catalog) service
+
+export const getCategories = () => api.get(`${CATALOG_SERVICE}/categories`);
