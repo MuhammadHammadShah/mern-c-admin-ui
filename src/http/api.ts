@@ -18,3 +18,6 @@ export const createUser = (user: CreateUserData) =>
 // category (catalog) service
 
 export const getCategories = () => api.get(`${CATALOG_SERVICE}/categories`);
+
+export const getProducts = (queryParams: string) =>
+  api.get(`${CATALOG_SERVICE}/products?${queryParams}`);
