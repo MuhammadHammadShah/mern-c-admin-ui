@@ -29,15 +29,31 @@ export type FieldData = {
   value?: string;
 };
 
-export type Category = {
+export interface PriceConfiguration {
+  [key: string]: {
+    priceType: "base" | "additional";
+    availableOptions: string[];
+  };
+}
+
+export interface Attribute {
+  name: string;
+  widgetType: "switch" | "radio";
+  defaultValue: string | boolean | number;
+  availableOptions: string[];
+}
+
+export interface Category {
   _id: string;
   name: string;
-};
+  priceConfiguration: PriceConfiguration;
+  attributes: Attribute[];
+}
 
 export type Product = {
   _id: string;
   name: string;
-  image:string
+  image: string;
   description: string;
   category: Category;
   isPublish: boolean;

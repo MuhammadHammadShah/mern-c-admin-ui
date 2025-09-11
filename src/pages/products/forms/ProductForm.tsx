@@ -78,7 +78,10 @@ const ProductForm = () => {
                     placeholder="Select category"
                   >
                     {categories?.data.map((category: Category) => (
-                      <Select.Option value={category._id} key={category._id}>
+                      <Select.Option
+                        value={JSON.stringify(category)}
+                        key={category._id}
+                      >
                         {category.name}
                       </Select.Option>
                     ))}
@@ -164,7 +167,7 @@ const ProductForm = () => {
             </Row>
           </Card>
 
-          {selectedCategory && <Pricing />}
+          {selectedCategory && <Pricing selectedCategory={selectedCategory} />}
           {selectedCategory && <Attributes />}
 
           <Card title="Other Properties" bordered={false}>
