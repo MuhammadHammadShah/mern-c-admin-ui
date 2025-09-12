@@ -19,7 +19,7 @@ const Pricing = ({ selectedCategory }: PricingProp) => {
   //
   return (
     <Card
-      title={<Typography.Text>Product Price</Typography.Text>}
+      title={<Typography.Text>Product price</Typography.Text>}
       bordered={false}
     >
       {Object.entries(category?.priceConfiguration).map(
@@ -32,7 +32,7 @@ const Pricing = ({ selectedCategory }: PricingProp) => {
                 style={{ width: "100%" }}
               >
                 <Typography.Text>
-                  {`${configurationKey} (${configurationValue})`}
+                  {`${configurationKey} (${configurationValue.priceType})`}
                 </Typography.Text>
 
                 <Row gutter={20}>
@@ -50,7 +50,7 @@ const Pricing = ({ selectedCategory }: PricingProp) => {
                             option,
                           ]}
                         >
-                          <InputNumber addonAfter="pkr"/>
+                          <InputNumber addonAfter="₹" />
                         </Form.Item>
                       </Col>
                     );
