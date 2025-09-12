@@ -148,7 +148,40 @@ const Products = () => {
     }
   };
 
-  const onHandleSubmit = () => {
+  const onHandleSubmit = async () => {
+    await form.validateFields();
+
+    //
+    const priceConfiguration = form.getFieldValue("priceConfiguration");
+    const pricing = Object.entries(priceConfiguration).reduce(
+      (acc, [key, value]) => {
+        const parsedKey = JSON.parse(key);
+        return {
+          ...acc,
+          [parsedKey.configurationKey]: {
+            priceType: parsedKey.priceType,
+            availableOptions: value,
+          },
+        };
+      },
+      {}
+    );
+    console.log(pricing);
+    //
+    const categoryId = JSON.parse(form.getFieldValue("categoryId"))._id;
+    console.log(categoryId);
+    
+//
+    const attributes = Object.entries(form.getFieldValue("attributes")).map(
+      ([key, value]) => {
+        return {
+          name: key,
+          value: value,
+        };
+      }
+    );
+    console.log(attributes);
+    //
     console.log("Submitting...........");
   };
 
