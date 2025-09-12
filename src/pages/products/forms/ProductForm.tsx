@@ -12,7 +12,7 @@ import {
 import { getCategories, getTenants } from "../../../http/api";
 import { useQuery } from "@tanstack/react-query";
 import type { Category } from "../../../types";
-import type { Tenant } from "../../../store";
+import { useAuthStore, type Tenant } from "../../../store";
 import Pricing from "./Pricing";
 import Attributes from "./Attributes";
 
@@ -20,7 +20,7 @@ import ProductImage from "./ProductImage";
 
 const ProductForm = () => {
   //
-
+const {user} = useAuthStore()
   // sub list after category selection
 
   const selectedCategory = Form.useWatch("categoryId");
@@ -125,8 +125,10 @@ const ProductForm = () => {
               </Col>
             </Row>
           </Card>
-
-          <Card title="Tenant Info" bordered={false}>
+          {/* tenant Info */}
+{
+  user?.role !== "manager"  && (
+ <Card title="Tenant Info" bordered={false}>
             <Row gutter={24}>
               <Col span={24}>
                 <Form.Item
@@ -156,6 +158,10 @@ const ProductForm = () => {
               </Col>
             </Row>
           </Card>
+  )
+}
+
+         
 
           {selectedCategory && <Pricing selectedCategory={selectedCategory} />}
           {selectedCategory && (
