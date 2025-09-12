@@ -12,6 +12,9 @@ const Attributes = ({ selectedCategory }: PricingProp) => {
     ? JSON.parse(selectedCategory)
     : null;
 
+  console.log("Parsed category:", category);
+  console.log("Category attributes:", category?.attributes);
+
   if (!category) {
     return null;
   }
@@ -35,13 +38,11 @@ const Attributes = ({ selectedCategory }: PricingProp) => {
                 ]}
               >
                 <Radio.Group>
-                  {attribute.availableOptions.map((option: string) => {
-                    return (
-                      <Radio.Button value={option} key={option}>
-                        {option}
-                      </Radio.Button>
-                    );
-                  })}
+                  {attribute.availableOptions?.map((option: string) => (
+                    <Radio.Button value={option} key={option}>
+                      {option}
+                    </Radio.Button>
+                  ))}
                 </Radio.Group>
               </Form.Item>
             ) : attribute.widgetType === "switch" ? (
@@ -53,10 +54,7 @@ const Attributes = ({ selectedCategory }: PricingProp) => {
                     initialValue={attribute.defaultValue}
                     label={attribute.name}
                   >
-                    <Switch
-                      checkedChildren="Yes"
-                      unCheckedChildren="No"
-                    ></Switch>
+                    <Switch checkedChildren="Yes" unCheckedChildren="No" />
                   </Form.Item>
                 </Col>
               </Row>

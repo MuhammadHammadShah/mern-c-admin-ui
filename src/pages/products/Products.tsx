@@ -182,7 +182,7 @@ const Products = () => {
             <Button
               type="primary"
               icon={<PlusOutlined />}
-              onClick={setDrawerOpen(true)}
+              onClick={() => setDrawerOpen(true)}
             >
               Add Product
             </Button>
@@ -193,6 +193,7 @@ const Products = () => {
             ...columns,
             {
               title: "Actions",
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               render: (_: string, record: Product) => {
                 return (
                   <Space>
