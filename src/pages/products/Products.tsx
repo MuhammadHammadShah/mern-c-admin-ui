@@ -22,12 +22,18 @@ import ProductsFilter from "./ProductsFilter";
 import type { FieldData, Product } from "../../types";
 import { useMemo, useState } from "react";
 import { PER_PAGE } from "../../constants";
-import { getProducts } from "../../http/api";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { createProduct, getProducts } from "../../http/api";
+import {
+  keepPreviousData,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { format } from "date-fns";
 import { debounce } from "lodash";
 import { useAuthStore } from "../../store";
 import ProductForm from "./forms/ProductForm";
+import { makeFormData } from "./helpers";
 
 const columns = [
   {
@@ -148,6 +154,24 @@ const Products = () => {
     }
   };
 
+  // Mutation to submit product form data
+  const queryClient = useQueryClient();
+  const { mutate: productMutate } = useMutation({
+    mutationKey: ["product"],
+    mutationFn: async (data: FormData) =>
+      createProduct(data).then((res) => res.data),
+    onSuccess: async () => {
+      queryClient.invalidateQueries({
+        queryKey: ["product"],
+      });
+
+      form.resetFields()
+      setDrawerOpen(false)
+      return;
+    },
+  });
+
+  //
   const onHandleSubmit = async () => {
     await form.validateFields();
 
@@ -170,8 +194,8 @@ const Products = () => {
     //
     const categoryId = JSON.parse(form.getFieldValue("categoryId"))._id;
     console.log(categoryId);
-    
-//
+
+    //
     const attributes = Object.entries(form.getFieldValue("attributes")).map(
       ([key, value]) => {
         return {
@@ -181,6 +205,27 @@ const Products = () => {
       }
     );
     console.log(attributes);
+
+    //
+
+    const postData = {
+      ...form.getFieldsValue(),
+      isPublish: form.getFieldValue("isPublish") ? true : true,
+      image: form.getFieldValue("image"),
+      categoryId,
+      priceConfiguration: pricing,
+      attributes,
+    };
+
+    console.log(postData);
+    //
+
+    const formData = makeFormData(postData);
+    console.log(formData);
+
+    //send the data oh yeah.......
+
+    await productMutate(formData);
     //
     console.log("Submitting...........");
   };

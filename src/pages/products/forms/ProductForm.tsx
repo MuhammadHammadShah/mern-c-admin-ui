@@ -3,12 +3,14 @@ import {
   Col,
   Form,
   Input,
+  message,
   Row,
   Select,
   Space,
   Switch,
   Typography,
   Upload,
+  type UploadProps,
 } from "antd";
 import { getCategories, getTenants } from "../../../http/api";
 import { useQuery } from "@tanstack/react-query";
@@ -17,8 +19,15 @@ import { PlusOutlined } from "@ant-design/icons";
 import type { Tenant } from "../../../store";
 import Pricing from "./Pricing";
 import Attributes from "./Attributes";
+import { useState } from "react";
 
 const ProductForm = () => {
+  //
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  // for showing error pop-up
+  const [messageApi, contextHolder] = message.useMessage();
+
   // sub list after category selection
 
   const selectedCategory = Form.useWatch("categoryId");
@@ -38,6 +47,30 @@ const ProductForm = () => {
       return getTenants();
     },
   });
+
+  // configuration for image uploading
+
+  const uploaderConfig: UploadProps = {
+    name: "file",
+    multiple: false,
+    showUploadList:false,
+
+    beforeUpload: (file) => {
+      // validation logic
+
+      const isJpgOrPng =
+        file.type === "image/jpeg" || file.type === "image/png";
+      if (!isJpgOrPng) {
+        messageApi.error("You can only upload Jpg/Png file");
+      }
+
+      //image
+      setImageUrl(URL.createObjectURL(file));
+
+      //todo size validation
+      return false;
+    },
+  };
 
   return (
     <Row>
@@ -125,12 +158,22 @@ const ProductForm = () => {
                     },
                   ]}
                 >
-                  <Upload listType="picture-card">
-                    <Space direction="vertical">
-                      <PlusOutlined />
-                      <Typography.Text>Upload</Typography.Text>
-                    </Space>
+                  <Upload listType="picture-card" {...uploaderConfig}>
+                    
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt="avatar"
+                        style={{ width: "100%" }}
+                      />
+                    ) : (
+                      <Space direction="vertical">
+                        <PlusOutlined />
+                        <Typography.Text>Upload</Typography.Text>
+                      </Space>
+                    )}
                   </Upload>
+                  {contextHolder}
                 </Form.Item>
               </Col>
             </Row>
